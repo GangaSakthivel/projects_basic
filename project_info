@@ -1,0 +1,16 @@
+Tables Overview:
+
+Products: Contains product details.
+Customers: Stores customer information.
+Orders: Tracks customer orders, including order date and total amount.
+Sales: Links orders to products sold, with the quantity of each product.
+Relationships Between Tables:
+
+Each Order is linked to a Customer (customer_id).
+Each Sale is linked to an Order (order_id) and a Product (product_id).
+Key Information We Want:
+
+Revenue (money made from orders).
+Best-selling products (products sold in high quantities).
+Customer spending (total money spent by a customer).
+Trends (e.g., monthly or seasonal sales).

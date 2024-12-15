@@ -1,0 +1,210 @@
+use sunday;
+
+select * from employee;
+
+
+#Find the name of the employee(s) whose salary is higher than the maximum salary in the Admin department.
+
+select emp_name
+from employee where salary >
+(select max(salary) from employee where dept_name = "admin");
+
+#Find the department name where the minimum salary in the department is greater than 80,000.
+
+select dept_name
+from employee
+where (select min(salary) from employee e where e.dept_name = employee.dept_name) > 80000 limit 1;
+
+#Find the employee(s) whose salary is equal to the average salary of the Finance department.
+
+select emp_name, salary 
+from employee where salary =
+(select avg(salary) from employee where dept_name = "Finance");
+
+#Find the location of the department where the head of the department is NULL.
+select location 
+from employee 
+where location = (select location from employee where head_of_department is null);
+
+show tables;
+
+select * from student;
+select * from studentdetails;
+
+#Question 1: Find the name, roll number, and location of students who are in section 'A';
+
+select name, roll_no, location 
+from studentdetails 
+where roll_no in(select roll_no from student where section = 'A');
+
+select sd.name, sd.roll_no, sd.location
+from studentdetails sd
+join student s
+on sd.roll_no = s.roll_no
+where s.section = "A";
+
+#Question 2: Find all students who live in Chennai and display their phone number.
+select phone_number from studentdetails where location = "chennai";
+
+#2. Find employees who have the highest salary in each department.
+#Concept: Correlated Subquery
+
+select * from employee;
+
+select emp_name, dept_name, salary
+from employee e1
+where salary = (select max(salary) from employee e2 where e2.dept_name = e1.dept_name);
+
+/*3. Find departments that do not have any employees.
+Concept: NOT EXISTS with Subquery*/
+
+SELECT dept_name
+FROM Department d
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Employee e
+    WHERE e.dept_name = d.dept_name
+);
+
+/*4. Find employees who earn more than the average salary of all employees.
+Concept: Scalar Subquery
+*/
+
+select emp_name, salary from employee where salary >
+(select avg(salary) from employee);
+
+
+#5. Find the second-highest salary from the Employee table.
+select emp_name, salary from employee where salary <> (select max(salary) from employee) limit 1;
+
+
+/*1. Find employees with a salary greater than the average salary of their department.
+Concept: Scalar Subquery*/
+
+select dept_name, salary from employee
+where salary > (select avg(salary) from employee);
+
+/*2. Find employees who have the highest salary in each department.
+Concept: Correlated Subquery*/
+
+select dept_name
+from employee e1 
+where salary > (select max(salary) from employee e2 where e2.dept_name = e1.dept_name);
+
+/* 3. Find departments that do not have any employees.
+Concept: NOT EXISTS with Subquery*/
+select dept_name
+from department d
+where not exists (select 1 from employee e where e.dept_name = d.dept_name);
+
+/* 4. Find employees who earn more than the average salary of all employees.
+Concept: Scalar Subquery*/
+
+select emp_name from employee where salary > (select avg(salary) from employee);
+
+/*5. Find the second-highest salary from the Employee table.
+Concept: Nested Subquery*/
+
+select emp_name, salary from employee where salary <> (select max(salary) from employee) limit 1;
+
+/*6. Find all products whose price is greater than the average price of products in the same category.*/
+
+select product_name from product p1 where category > (select avg(price) from product p2 where p2.category = p1.category);
+
+/* 7. Find employees who have worked on a project that has a budget greater than $1,000,000.
+Concept: Scalar Subquery with IN*/
+
+select emp_name from employee 
+where emp_id in(select emp_id from project where project > 1000000);
+
+/* 8. Find customers who have not placed any orders.
+Concept: NOT EXISTS with Subquery */
+
+select customer_name from customer c  where not exists (select 1 from orders o where o.customer_id = c.customer_id); 
+
+/* 9. Find the employees who have the same salary as the employee with the highest salary.*/
+
+SELECT emp_name, salary
+FROM Employee
+WHERE salary = (
+    SELECT MAX(salary)
+    FROM Employee
+);
+
+/*10. Find employees who have the same department as the employee named 'John Doe'.*/
+select emp_name, dept_name from employee where dept_name =
+(select dept_name from employee where emp_name = "Jonh doe");
+
+use sunday;
+
+/* Step 2: Writing Basic Queries
+Query 1: View All Data in a Table
+Start by looking at the data in each table.*/
+
+select * from customers;
+select * from orders;
+select * from products;
+select * from sales;
+
+/*  Query 2: Count the Total Rows in a Table
+This helps you know how much data each table contains.*/
+
+select count(*) from customers;
+
+/* Query 3: View Specific Columns
+Focus on specific columns to understand the structure better.*/
+
+SELECT product_name, unit_price FROM Products;
+SELECT first_name, last_name, city FROM Customers;
+
+
+/* Step 3: Learn Basic Aggregation
+Query 4: Total Revenue from Orders
+Use the SUM() function to calculate the total revenue.*/
+
+select sum(total_amount) as total_revenue from orders;
+
+#Group data by customer_id to calculate total orders for each customer.
+select customer_id, count(order_id) as total_order
+from orders
+group by customer_id;
+
+/*Step 4: Joining Tables
+Query 6: Combine Customer and Order Data
+Use a join to see customer details alongside their orders. */
+
+select * from customers c
+join orders o
+on c.customer_id = o.customer_id;
+
+/* Objective 1: Calculate Monthly Revenue and Growth Percentage
+SQL Query:*/
+
+
+SELECT 
+    DATE_FORMAT(order_date, '%Y-%m') AS month, -- Format date as YYYY-MM
+    SUM(total_amount) AS total_revenue,
+    (SUM(total_amount) - LAG(SUM(total_amount)) OVER (ORDER BY DATE_FORMAT(order_date, '%Y-%m'))) /
+    LAG(SUM(total_amount)) OVER (ORDER BY DATE_FORMAT(order_date, '%Y-%m')) * 100 AS growth_percentage
+FROM Orders
+GROUP BY DATE_FORMAT(order_date, '%Y-%m')
+ORDER BY month;
+
+#Objective 2: Find the Top 10 Best-Selling Products
+select
+p.product_name, 
+sum(s.quantity) as total_quantity
+from sales s
+join products p 
+on s.product_id = p.product_id
+group by p.product_name
+order by total_quantity desc 
+limit 10;
+
+
+
+
+
+
+
+
