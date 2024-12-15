@@ -1,0 +1,129 @@
+-- Create Products table
+CREATE TABLE Products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    category VARCHAR(255),
+    unit_price DECIMAL(10, 2) NOT NULL
+);
+
+
+INSERT INTO Products (product_id, product_name, category, unit_price) VALUES
+(1, 'Laptop', 'Electronics', 1200.00),
+(2, 'Smartphone', 'Electronics', 800.00),
+(3, 'Headphones', 'Electronics', 150.00),
+(4, 'T-Shirt', 'Clothing', 25.00),
+(5, 'Jeans', 'Clothing', 50.00),
+(6, 'Shoes', 'Footwear', 80.00),
+(7, 'Book', 'Books', 20.00),
+(8, 'Table', 'Furniture', 300.00),
+(9, 'Chair', 'Furniture', 100.00),
+(10, 'Coffee Maker', 'Kitchen', 150.00),
+(11, 'Blender', 'Kitchen', 80.00),
+(12, 'Rice Cooker', 'Kitchen', 120.00),
+(13, 'Pen', 'Stationery', 5.00),
+(14, 'Notebook', 'Stationery', 10.00),
+(15, 'Pencil', 'Stationery', 2.00),
+(16, 'Guitar', 'Musical Instruments', 500.00),
+(17, 'Piano', 'Musical Instruments', 2000.00),
+(18, 'Drums', 'Musical Instruments', 1500.00),
+(19, 'Running Shoes', 'Footwear', 90.00),
+(20, 'Sneakers', 'Footwear', 70.00);
+
+
+-- Create Customers table
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    city VARCHAR(255),
+    country VARCHAR(255)
+);
+
+
+-- Inserting sample data into Customers table
+INSERT INTO Customers (customer_id, first_name, last_name, city, country) VALUES
+(1, 'John', 'Doe', 'New York', 'USA'),
+(2, 'Jane', 'Smith', 'London', 'UK'),
+(3, 'David', 'Lee', 'Paris', 'France'),
+(4, 'Maria', 'Garcia', 'Madrid', 'Spain'),
+(5, 'Peter', 'Jones', 'Berlin', 'Germany'),
+(6, 'Anna', 'Schmidt', 'Rome', 'Italy'),
+(7, 'Robert', 'Williams', 'Tokyo', 'Japan'),
+(8, 'Lisa', 'Brown', 'Sydney', 'Australia'),
+(9, 'Michael', 'Davis', 'Toronto', 'Canada'),
+(10, 'Jennifer', 'Wilson', 'New Delhi', 'India'),
+(11, 'Charles', 'Moore', 'Sao Paulo', 'Brazil'),
+(12, 'Linda', 'Anderson', 'Beijing', 'China'),
+(13, 'Thomas', 'Taylor', 'Moscow', 'Russia'),
+(14, 'Daniel', 'Jackson', 'Seoul', 'South Korea'),
+(15, 'Christopher', 'White', 'Cairo', 'Egypt'),
+(16, 'Paul', 'Harris', 'Mumbai', 'India'),
+(17, 'Martha', 'Martin', 'Shanghai', 'China'),
+(18, 'Andrew', 'Thompson', 'Mexico City', 'Mexico'),
+(19, 'Richard', 'Clark', 'Osaka', 'Japan'),
+(20, 'Steven', 'Lewis', 'Los Angeles', 'USA');
+
+-- Create Orders table
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total_amount DECIMAL(10, 2),
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+-- Inserting sample data into Orders table
+INSERT INTO Orders (order_id, customer_id, order_date, total_amount) VALUES
+(1, 1, '2023-11-15', 1500.00),
+(2, 2, '2023-11-18', 800.00),
+(3, 3, '2023-11-20', 50.00),
+(4, 4, '2023-11-22', 300.00),
+(5, 5, '2023-11-25', 100.00),
+(6, 6, '2023-11-28', 20.00),
+(7, 7, '2023-12-01', 1200.00),
+(8, 8, '2023-12-04', 80.00),
+(9, 9, '2023-12-07', 150.00),
+(10, 10, '2023-12-10', 25.00),
+(11, 11, '2023-12-13', 50.00),
+(12, 12, '2023-12-16', 80.00),
+(13, 13, '2023-12-19', 20.00),
+(14, 14, '2023-12-22', 300.00),
+(15, 15, '2023-12-25', 100.00),
+(16, 16, '2023-12-28', 1500.00),
+(17, 17, '2023-12-31', 800.00),
+(18, 18, '2024-01-03', 50.00),
+(19, 19, '2024-01-06', 300.00),
+(20, 20, '2024-01-09', 100.00);
+
+-- Create Sales table
+CREATE TABLE Sales (
+    sale_id INT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+
+INSERT INTO Sales (sale_id, order_id, product_id, quantity) VALUES
+(1, 1, 1, 1),
+(2, 1, 3, 2),
+(3, 2, 2, 1),
+(4, 3, 5, 2),
+(5, 4, 8, 1),
+(6, 5, 9, 2),
+(7, 6, 7, 5),
+(8, 7, 1, 1),
+(9, 7, 3, 1),
+(10, 8, 2, 1),
+(11, 9, 3, 2),
+(12, 10, 4, 2),
+(13, 11, 5, 1),
+(14, 12, 6, 1),
+(15, 13, 7, 2),
+(16, 14, 8, 1),
+(17, 15, 9, 2),
+(18, 16, 1, 1),
+(19, 16, 3, 2),
+(20, 17, 2, 1);
