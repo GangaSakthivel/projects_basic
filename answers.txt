@@ -1,0 +1,52 @@
+1. What is SQL?
+SQL (Structured Query Language) is a programming language used to interact with databases. It allows you to:
+
+Create and modify database structures.
+Insert, retrieve, update, and delete data.
+Perform data analysis and reporting.
+
+DDL (Data Definition Language): Define or modify the structure of databases and tables.
+
+CREATE: Create a new database/table.
+ALTER: Modify an existing database/table.
+DROP: Delete a database/table.
+DML (Data Manipulation Language): Work with the data inside tables.
+
+INSERT: Add new rows of data.
+UPDATE: Modify existing data.
+DELETE: Remove rows of data.
+DQL (Data Query Language): Retrieve data from tables.
+
+SELECT: Query the database to fetch data.
+DCL (Data Control Language): Manage access and permissions.
+
+GRANT: Give privileges to users.
+REVOKE: Remove privileges from users.
+TCL (Transaction Control Language): Manage database transactions.
+
+COMMIT: Save changes made by a transaction.
+ROLLBACK: Undo changes made by a transaction
+
+3. How do you select all columns from a table?
+Use the SELECT statement with * to retrieve all columns.
+
+Syntax:
+
+sql
+SELECT * FROM table_name;
+Example:
+
+sql
+SELECT * FROM Products;
+
+4. How do you select specific columns from a table?
+List the column names you want to retrieve after SELECT.
+
+Syntax:
+
+sql
+SELECT column1, column2 FROM table_name;
+Example:
+
+sql
+SELECT product_name, unit_price FROM Products;
